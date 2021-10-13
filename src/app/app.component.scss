@@ -1,0 +1,13 @@
+@import '~src/assets/scss/config';
+
+.#{$prefix}-main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  background-color: $black1;
+  overflow-x: hidden;
+  &__sidebar {
+    min-height: calc(100vh - 70px);
+  }
+}

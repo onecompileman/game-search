@@ -1,0 +1,27 @@
+@import '../config';
+
+.page-link {
+  color: white;
+  border: 1px solid $black1;
+  background-color: $black2;
+
+  &--active {
+    background-color: #04bcb9;
+  }
+
+  &:hover {
+    color: $white;
+    background-color: #04bcb9;
+    border: 1px solid $black1;
+  }
+
+  &:active {
+    color: $white;
+    background-color: #04bcb9;
+    border: 1px solid $black1;
+  }
+
+  &:focus {
+    box-shadow: none;
+  }
+}

@@ -1,0 +1,79 @@
+@import '~src/assets/scss/config';
+
+.#{$prefix}-game-list {
+  display: flex;
+  flex-direction: column;
+  color: white;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__select {
+    font-size: 14px;
+    width: 150px !important;
+    background-color: $black2;
+    border: none;
+    color: white;
+    border-radius: 8px;
+  }
+
+  &__game-item {
+    width: 100%;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: $black3;
+    overflow: hidden;
+
+    &-info {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &__game-image {
+    height: 150px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+  }
+
+  &__game-body {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  &__game-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  &__game-score {
+    height: 28px;
+    width: 28px;
+    font-size: 14px;
+    color: #04bcb9;
+    border: 1px solid #04bcb9;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__game-info-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+
+    span {
+      color: #bbb;
+    }
+
+    div {
+      color: white;
+    }
+  }
+}
