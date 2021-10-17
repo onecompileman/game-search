@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, pluck, tap } from 'rxjs/operators';
-import { GamesService } from 'src/app/core/data-service/games.service';
+import { GamesDataService } from 'src/app/core/data-services/games.data-service';
+import { GameSearchService } from 'src/app/core/services/game-search.service';
 import { Genre } from '../../models/genre.model';
+import { Platform } from '../../models/platform.model';
 
 @Component({
   selector: 'gs-sidebar',
@@ -10,62 +12,37 @@ import { Genre } from '../../models/genre.model';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  platforms: any[] = [
-    {
-      name: 'Android',
-      svg: 'android.svg',
-      selected: true,
-    },
-    {
-      name: 'IOS',
-      svg: 'ios.svg',
-      selected: true,
-    },
-    {
-      name: 'PC',
-      svg: 'pc.svg',
-      selected: true,
-    },
-    {
-      name: 'Playstation',
-      svg: 'ps4.svg',
-      selected: true,
-    },
-    {
-      name: 'Nintendo Switch',
-      svg: 'switch.svg',
-      selected: true,
-    },
-    {
-      name: 'Xbox',
-      svg: 'xbox.svg',
-      selected: true,
-    },
-  ];
+  platforms$: Observable<Platform[]> = of([]);
+  genres$: Observable<Genre[]> = of([]);
 
-  genres: Genre[] = [];
-
-  constructor(private gamesService: GamesService) {}
+  constructor(private gameSearchService: GameSearchService) {}
 
   ngOnInit(): void {
     this.getAllGenres();
+    this.getAllPlatforms();
+  }
+
+  toggleGenre(genre: Genre) {
+    this.gameSearchService.toggleGenre(genre.id);
+  }
+
+  togglePlatform(platform: Platform) {
+    this.gameSearchService.togglePlatform(platform.id);
+  }
+
+  onMinRatingChange(event: any) {
+    this.gameSearchService.setMinRatingValue(event.target.value);
+  }
+
+  onMaxRatingChange(event: any) {
+    this.gameSearchService.setMaxRatingValue(event.target.value);
   }
 
   private getAllGenres() {
-    this.gamesService
-      .getAllGenres()
-      .pipe(
-        pluck('results'),
-        map((genres: Genre[]) =>
-          genres.map((genre) => {
-            genre.$$selected = true;
-            return genre;
-          })
-        ),
-        tap(console.log)
-      )
-      .subscribe((genres) => {
-        this.genres = genres;
-      });
+    this.genres$ = this.gameSearchService.selectAllGenres();
+  }
+
+  private getAllPlatforms() {
+    this.platforms$ = this.gameSearchService.selectAllPlatforms();
   }
 }

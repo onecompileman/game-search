@@ -3,6 +3,10 @@
 
   <div class="gs-navbar__search">
     <i class="fa fa-search"></i>
-    <input type="search" placeholder="Type to search games by name" />
+    <input
+      type="search"
+      placeholder="Type to search games by name"
+      (input)="onSearch($event)"
+    />
   </div>
 </div>
