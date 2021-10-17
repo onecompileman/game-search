@@ -2,7 +2,14 @@ import { query } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { combineLatest, forkJoin, Observable } from 'rxjs';
-import { combineAll, map, pluck, switchMap, tap } from 'rxjs/operators';
+import {
+  combineAll,
+  map,
+  pluck,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { GamesDataService } from '../core/data-services/games.data-service';
 import { GameSearchService } from '../core/services/game-search.service';
 import { GameSearchQuery } from '../shared/models/game-search-query.model';
@@ -44,6 +51,7 @@ export class GameListComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    this.listenToSearchEventChanges();
   }
 
   nextPage() {
@@ -70,10 +78,10 @@ export class GameListComponent implements OnInit {
   }
 
   private listenToSearchEventChanges() {
-    const page$ = this.page?.valueChanges;
-    const orderBy$ = this.orderBy?.valueChanges;
-    const order$ = this.order?.valueChanges;
-    const pageSize$ = this.pageSize?.valueChanges;
+    const page$ = this.page?.valueChanges.pipe(startWith(0));
+    const orderBy$ = this.orderBy?.valueChanges.pipe(startWith('added'));
+    const order$ = this.order?.valueChanges.pipe(startWith('asc'));
+    const pageSize$ = this.pageSize?.valueChanges.pipe(startWith(10));
 
     const search$ = this.gameSearchService.selectSearchQuery();
 
@@ -132,6 +140,7 @@ export class GameListComponent implements OnInit {
                 ? minRating || 0 + ',' + maxRating || 0
                 : null,
           };
+          console.log(searchQuery);
 
           const filteredSearchQuery: GameSearchQuery = Object.keys(searchQuery)
             .filter((key) => searchQuery[key])
@@ -150,9 +159,9 @@ export class GameListComponent implements OnInit {
         this.gameDataService.searchGames(gameSearchQuery)
       ),
       tap((response: ResponseBody<Game>) => {
-        const pageCount = Math.ceil(response.count / this.page.value);
-
-        this.pages = Array.apply(null, { length: pageCount });
+        console.log(response);
+        const pageCount = Math.ceil(response.count / (this.pageSize.value + 1));
+        this.pages = Array(pageCount).fill(null);
       }),
       pluck('results')
     );

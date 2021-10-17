@@ -22,6 +22,6 @@ export class GamesDataService {
   }
 
   searchGames(query: GameSearchQuery): Observable<ResponseBody<Game>> {
-    return this.restangular.one('platforms').get(query);
+    return this.restangular.one('games').get(query);
   }
 }
