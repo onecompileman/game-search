@@ -72,16 +72,19 @@ export class GameListComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       page: [0],
       orderBy: ['added'],
-      order: ['asc'],
-      pageSize: [10],
+      order: ['desc'],
+      pageSize: [12],
     });
   }
 
   private listenToSearchEventChanges() {
-    const page$ = this.page?.valueChanges.pipe(startWith(0));
+    const page$ = this.page?.valueChanges.pipe(
+      startWith(0),
+      map((page) => page + 1)
+    );
     const orderBy$ = this.orderBy?.valueChanges.pipe(startWith('added'));
-    const order$ = this.order?.valueChanges.pipe(startWith('asc'));
-    const pageSize$ = this.pageSize?.valueChanges.pipe(startWith(10));
+    const order$ = this.order?.valueChanges.pipe(startWith('desc'));
+    const pageSize$ = this.pageSize?.valueChanges.pipe(startWith(12));
 
     const search$ = this.gameSearchService.selectSearchQuery();
 
@@ -95,7 +98,7 @@ export class GameListComponent implements OnInit {
         )
       );
     const selectedGenresIds$ = this.gameSearchService
-      .selectAllPlatforms()
+      .selectAllGenres()
       .pipe(
         map((genres) =>
           genres.filter((genre) => genre.$$selected).map((genre) => genre.id)
@@ -136,9 +139,7 @@ export class GameListComponent implements OnInit {
             platforms: selectedPlatformsIds.toString(),
             ordering: order === 'asc' ? orderBy : '-' + orderBy,
             metacritic:
-              minRating || maxRating
-                ? minRating || 0 + ',' + maxRating || 0
-                : null,
+              minRating || maxRating ? minRating + ',' + maxRating : null,
           };
           console.log(searchQuery);
 

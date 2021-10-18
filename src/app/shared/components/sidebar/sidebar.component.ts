@@ -35,6 +35,7 @@ export class SidebarComponent implements OnInit {
   }
 
   onMaxRatingChange(event: any) {
+    console.log(event);
     this.gameSearchService.setMaxRatingValue(event.target.value);
   }
 
