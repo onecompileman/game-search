@@ -9,9 +9,11 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { RestangularModule } from 'ngx-restangular';
 import { RestangularConfigFactory } from './core/factories/restangular-config.factory';
+import { RegisterComponent } from './register/register.component';
+import { MainComponent } from './main/main.component';
 
 @NgModule({
-  declarations: [AppComponent, GameListComponent],
+  declarations: [AppComponent, GameListComponent, RegisterComponent, MainComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

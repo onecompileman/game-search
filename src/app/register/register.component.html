@@ -1,0 +1,52 @@
+
+<div class="w-100 d-flex justify-content-center" style="background-color: #f3f3f3; height: 100vh">
+    <form [formGroup]="registerForm" class="card col-6 mt-4 p-4" style="height: min-content;">
+        <h5 class="card-title">Sample Register Form</h5>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="">
+                    First Name <b class="text-danger">*</b>
+                </label>
+                <input type="email" class="form-control" formControlName="firstName">
+                <div *ngIf="fc('firstName').touched && fc('firstName').errors" class="d-flex flex-column text-danger">
+                    <small>First name is required.</small>
+                </div>
+            </div>  
+             <div class="form-group mt-2">
+                <label for="">
+                    Last Name <b class="text-danger">*</b>
+                </label>
+                <input type="email" class="form-control" formControlName="lastName">
+                <div *ngIf="fc('lastName').touched && fc('lastName').errors" class="d-flex flex-column text-danger">
+                    <small>Last name is required.</small>
+                </div>
+            </div> 
+         <div class="form-group mt-2">
+            <label for="">
+                Email Address <b class="text-danger">*</b>
+            </label>
+            <input type="email" class="form-control" formControlName="email">
+            <div *ngIf="fc('email').touched && fc('email').errors" class="d-flex flex-column text-danger">
+                <small *ngIf="fc('email').errors.required">Email Address is required.</small>
+                <small *ngIf="fc('email').errors.email">Email Address is invalid.</small>
+                <small *ngIf="fc('email').errors.emailExists">Email Address already exists!.</small>
+            </div>
+         </div> 
+         <div class="form-group mt-2">
+            <label for="">
+               Phone number <b class="text-danger">*</b>
+            </label>
+            <input type="email" class="form-control" formControlName="phone">
+            <div *ngIf="fc('phone').touched && fc('phone').errors" class="d-flex flex-column text-danger">
+                <small>Phone Number is required.</small>
+            </div>
+         </div> 
+
+         <div class="mt-4">
+            <button class="btn btn-primary" [disabled]="registerForm.invalid">
+                Save
+            </button>
+         </div>
+        </div>
+    </form>
+</div>
