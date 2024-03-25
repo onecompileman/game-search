@@ -15,9 +15,12 @@ jobs:
         with:
           node-version: "16.17.1"
       - run: npm install --force && npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Use Node.js 18.0.0
+        uses: actions/setup-node@v3
         with:
           node-version: "18.0.0"
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ANGULAR_GAME_SEARCH }}'
           channelId: live
